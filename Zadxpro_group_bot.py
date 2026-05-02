@@ -4,6 +4,15 @@ import threading
 import json
 from telebot import types
 
+from flask import Flask
+import os
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Bot is running"
+
 API_TOKEN = '7973873315:AAFvL7jA1p5laL38dvaDTV2Q2fCY6zzEB1k'
 YUSUF_CHANNELS = ['@zadxproooo', '@zadxprootziv']
 ADMIN_ID = 7424107874
@@ -575,4 +584,13 @@ def calls(call):
         bot.answer_callback_query(call.id, rules, show_alert=True)
 
 print("Бот фаъол шуд... ✅")
+
+def run_web():
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+
+import threading
+
+web_thread = threading.Thread(target=run_web)
+web_thread.start()
+
 bot.polling(none_stop=True)
